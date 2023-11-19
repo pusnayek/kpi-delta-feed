@@ -2,7 +2,7 @@ applications:
 - name: kpi-delta-feed
   random-route: true
   path: ./
-  memory: 128M
+  memory: 256M
   buildpacks: 
   - python_buildpack
   command: python server.py

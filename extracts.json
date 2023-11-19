@@ -1,6 +1,6 @@
 {
     "ADMIN" : {
-        "FILENAME-PATTERNS" : ["Admins"],  
+        "FILENAME-PATTERNS" : ["xAdmins"],  
         "HANATAB" : "TT_ADMINACCESS",
         "COLUMNS" : {
             "STUD_ID" : "USERID", 
@@ -9,7 +9,7 @@
         "NUMBERCOLS" : []
     },
     "ITEM" : {
-        "FILENAME-PATTERNS" : ["Recent_Item_Export2023"],  
+        "FILENAME-PATTERNS" : ["xItem", "xRecent_Item", "xRecent_Item_Export2023", "Item_Export_Full"],  
         "HANATAB" : "TT_ITEMS",
         "COLUMNS" : {
             "Item ID" : "ITEMID", 
