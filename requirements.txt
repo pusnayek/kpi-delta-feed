@@ -1,0 +1,6 @@
+Flask==2.3.*
+cfenv==0.5.3
+hdbcli==2.17.*
+sap_cf_logging==4.2.*
+paramiko==3.3.*
+pandas==2.1.*

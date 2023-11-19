@@ -1,0 +1,10 @@
+applications:
+- name: kpi-delta-feed
+  random-route: true
+  path: ./
+  memory: 128M
+  buildpacks: 
+  - python_buildpack
+  command: python server.py
+  services:
+  - kpi-db

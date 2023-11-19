@@ -1,0 +1,31 @@
+{
+    "ADMIN" : {
+        "FILENAME-PATTERNS" : ["Admins"],  
+        "HANATAB" : "TT_ADMINACCESS",
+        "COLUMNS" : {
+            "STUD_ID" : "USERID", 
+            "DMN_ID" : "DOMAIN"
+        },
+        "NUMBERCOLS" : []
+    },
+    "ITEM" : {
+        "FILENAME-PATTERNS" : ["Recent_Item_Export2023"],  
+        "HANATAB" : "TT_ITEMS",
+        "COLUMNS" : {
+            "Item ID" : "ITEMID", 
+            "Action"  : "DELTA_ACTION", 
+            "Last Update Time" : "DELTA_LASTUPDATETIME", 
+            "Row No." : "DELTA_RECORD", 
+            "Item Type" : "ITEMTYPE",
+            "Title" : "ITEMTITLE", 
+            "Competency ID" : "COMPETENCY_ID", 
+            "Competency Name" : "COMPETENCY_NAME", 
+            "Competency Area ID" : "COMPETENCY_AREA",
+            "Competency Area Description" : "COMPETENCY_DESCRIPTION", 
+            "Competency Type" : "COMPETENCY_COMPETENCYTYPE",
+            "Granting certificate" : "COMPETENCY_GRANTSCERTIFICATE", 
+            "Retraining Number (Item)" : "RETAININGNUMER"        
+        },
+        "NUMBERCOLS" : ["RETAININGNUMER"]
+    }
+}
