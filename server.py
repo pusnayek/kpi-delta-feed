@@ -13,7 +13,7 @@ flask_logging.init(app, logging.INFO)
 port = int(os.environ.get('PORT', 3000))
 @app.route('/')
 def hello():
-    return "Hello World!"
+    return "RUN :/execute - to run replication"
 
 @app.route('/log')
 def root_route():
@@ -32,7 +32,7 @@ def dbconnect():
 @app.route('/execute')
 def execute():
     main.execute()
-    return "Execution started.."
+    return "Replication done!"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)

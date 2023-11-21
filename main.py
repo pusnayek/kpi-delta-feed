@@ -3,16 +3,20 @@ import dbconnect
 import sys
 
 def execute():
-    sys.stdout.write("EXECUTION SUMMARY")
+    files = []
+    sys.stdout.write("\n-----EXECUTION SUMMARY-----\n")
     for type, filename, dataframe in sftp.read_files():
-        # print(type, filename, len(dataframe.index))
         str = "File type - {type}, name - {name}, length - {len}".format(type = type, name = filename, len = len(dataframe.index))
         sys.stdout.write(str)
         
         str = dbconnect.write_df_to_hana(dataframe, type)
-        sys.stdout.write(str)
-        # print(dataframe.head(2))
-        # sftp.archive(filename)
+        str = dbconnect.replicate(type)
+        sys.stdout.write("Replication done for {type}".format(type = type))
+        files.append(filename)
+
+    for filename in files:        
+        sftp.move_file(filename)
+        sys.stdout.write("File archived {filename}".format(filename = filename))
 
 
 def check_sftp():

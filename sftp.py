@@ -1,6 +1,7 @@
 import paramiko
 import pandas as pd
 import exconfig
+import sys
 
 connection_host = 'prodftp2.successfactors.eu'
 connection_user = 'centralbot-stage'
@@ -8,7 +9,6 @@ connection_password = '8DfQMHKUwf'
 connection_dir='/incoming/LMS'
 
 CONFIG = exconfig.read_config()
-sftp_client = None
 
 def check_file(filename):
     if not filename.endswith(".csv"):
@@ -20,7 +20,6 @@ def check_file(filename):
     return False, ''
 
 def read_files():
-    global sftp_client
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy)
@@ -45,22 +44,33 @@ def read_files():
             ssh.close()
 
 def archive(filename):
-    old_name = connection_dir + "/" + filename
-    new_name = connection_dir + "/Archive/" + "/" + filename
+    global sftp_client, connection_dir
+    # old_name = connection_dir + "/" + filename
+    # new_name = connection_dir + "/Archive" + "/" + filename
+    old_name = filename
+    new_name = "/Archive" + "/" + filename
+    sys.stdout.write("Archiving file {file}".format(file = old_name))
     sftp_client.rename(old_name, new_name)
+    sys.stdout.write("Archived file {file}".format(file = new_name))
 
 def move_file(filename):
-    global sftp_client
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy)
         ssh.connect(connection_host, username=connection_user, password=connection_password)
         sftp_client = ssh.open_sftp()
+        # archive(filename)
+        # sftp_client.chdir(connection_dir)
         old_name = connection_dir + "/" + filename
         new_name = connection_dir + "/Archive/" + "/" + filename
         sftp_client.rename(old_name, new_name)
+        # command = "mv " + connection_dir + "/" + filename + " " + connection_dir + "/Archive"
+        # print(command)
+        # stdin,stdout,stderr = ssh.exec_command(command)
+        # print(stdout.readlines())
+        # print(stderr.readlines())
     except Exception as err:
-        print(err)
+        return str(err)
     finally:
         if sftp_client:
             sftp_client.close()

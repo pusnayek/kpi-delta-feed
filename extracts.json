@@ -1,6 +1,6 @@
 {
     "ADMIN" : {
-        "FILENAME-PATTERNS" : ["xAdmins"],  
+        "FILENAME-PATTERNS" : ["Admins"],  
         "HANATAB" : "TT_ADMINACCESS",
         "COLUMNS" : {
             "STUD_ID" : "USERID", 
@@ -9,7 +9,7 @@
         "NUMBERCOLS" : []
     },
     "ITEM" : {
-        "FILENAME-PATTERNS" : ["xItem", "xRecent_Item", "xRecent_Item_Export2023", "Item_Export_Full"],  
+        "FILENAME-PATTERNS" : ["Item", "Recent_Item"],  
         "HANATAB" : "TT_ITEMS",
         "COLUMNS" : {
             "Item ID" : "ITEMID", 
@@ -27,5 +27,60 @@
             "Retraining Number (Item)" : "RETAININGNUMER"        
         },
         "NUMBERCOLS" : ["RETAININGNUMER"]
+    },
+    "EMPLOYEE" : {
+        "FILENAME-PATTERNS" : ["Employees"],  
+        "HANATAB" : "TT_EMPLOYEES",
+        "COLUMNS" : {
+            "User ID" : "USERID", 
+            "Action"  : "DELTA_ACTION", 
+            "Last Update Time" : "DELTA_LASTUPDATETIME", 
+            "Row No." : "DELTA_RECORD", 
+            "Employee ID" : "EMPLOYEEID",
+            "Employee Status" : "EMPLOYEESTATUS", 
+            "First Name" : "FIRSTNAME", 
+            "Last Name" : "LASTNAME", 
+            "Security Domain" : "DOMAIN",
+            "Job Code" : "JOBCODE", 
+            "Jobs Group" : "JOBGROUP",
+            "Manager" : "MANAGERUSERID", 
+            "Manager Name" : "MANAGERNAME",
+            "Department" : "DEPARTMENT",       
+            "Division" : "DIVISION",       
+            "Job Location" : "JOBLOCATION",       
+            "BU Group" : "GROUPBU",
+            "Employee Group" : "EMPLOYEEGROUP",
+            "Custom Employee Status" : "EMPCUSTOMSTATUS"
+        },
+        "NUMBERCOLS" : []
+    },
+    "ASSIGNMENT" : {
+        "FILENAME-PATTERNS" : ["Assignment"],  
+        "HANATAB" : "TT_ASSIGNMENTS",
+        "COLUMNS" : {
+            "User ID" : "USERID", 
+            "Item ID" : "ITEMID", 
+            "Item Type" : "ITEMTYPE",
+            "Action"  : "DELTA_ACTION", 
+            "Last Update Time" : "DELTA_LASTUPDATETIME", 
+            "Assignment Date" : "ASSIGNMENTDATE",
+            "Assigned By" : "ASSIGNEDBY"
+        },
+        "NUMBERCOLS" : []
+    },
+    "COMPLETION" : {
+        "FILENAME-PATTERNS" : ["Completion"],  
+        "HANATAB" : "TT_COMPLETIONS",
+        "COLUMNS" : {
+            "User ID" : "USERID", 
+            "Action"  : "DELTA_ACTION", 
+            "Last Update Time" : "DELTA_LASTUPDATETIME", 
+            "Row No." : "DELTA_RECORD", 
+            "Item ID" : "ITEMID", 
+            "Item Type" : "ITEMTYPE",
+            "Completion Status" : "COMPLETIONSTATUS",
+            "Completion Date" : "COMPLETIONDATE"
+        },
+        "NUMBERCOLS" : []
     }
 }
