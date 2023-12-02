@@ -1,10 +1,12 @@
 import os
-from flask import Flask
+from flask import Flask, send_file, request, jsonify
 from cfenv import AppEnv
 from hdbcli import dbapi
 from sap.cf_logging import flask_logging
 import logging
 import main
+import excel
+from io import BytesIO
 
 app = Flask(__name__)
 env = AppEnv()
@@ -33,6 +35,20 @@ def dbconnect():
 def execute():
     main.execute()
     return "Replication done!"
+
+@app.route('/excel/download', methods = ['GET','POST'])
+def download():
+    payload = request.json
+    # wb = excel.build(jsonify(payload))
+    wb = excel.build(payload)
+    file_stream = BytesIO()
+    wb.save(file_stream)
+    file_stream.seek(0)
+    return send_file(
+        file_stream, 
+        mimetype = "application/vnd.ms-excel",
+        download_name="Kpi.xlsx", 
+        as_attachment=True)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
