@@ -20,23 +20,3 @@ def build(payload):
             ws.cell(row=r_idx, column=c_idx, value=value)
             
     return wb
-
-
-# def get_workbook():
-#     wb = Workbook()
-#     ws = wb.active
-#     ws.append(['TDD', 'is', 'AWESOME!'])
-#     ws.append(['Except', 'when', 'it', 'is', 'particularly', 'hard'])
-#     ws.append(['But', 'we', 'can', 'handle', 'it'])
-#     return wb
-
-# def get_wb():
-#     df = dbconnect.read_data()
-#     wb = load_workbook('CompetencyStatus.xlsx')
-#     ws = wb["data"]
-#     rows = dataframe_to_rows(df, index=False, header=False)
-#     for r_idx, row in enumerate(rows, 2):
-#         for c_idx, value in enumerate(row, 1):
-#             ws.cell(row=r_idx, column=c_idx, value=value)
-#     return wb
-
