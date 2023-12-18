@@ -5,6 +5,7 @@ from hana_ml.dataframe import ConnectionContext, create_dataframe_from_pandas
 import json
 from urllib.parse import unquote
 from base64 import b64encode, b64decode
+import sys
 
 SCHEMA = "4B177AEC29CC443F8EB8FDF8E4BB850A"
 CONFIG = exconfig.read_config()
@@ -82,12 +83,31 @@ def build_where_clause(filter):
             pFilter = pFilter + ' AND ("{name}" IN ({values}))'.format(name = filterItem["name"], values = values)
     return pFilter
 
-# ( UPPER("ACTING_USERID") = UPPER('adminPN') )
-# 	AND ( UPPER("ACTOR") = UPPER('RH') )
-# 	AND ("DOMAIN" IN ('CARLSROM_ROMANIA', 'Tuborg Pazarlama (2000)'))
+def timer_lock():
+    global conn
+    try:
+        df = conn.table('XT_TIMER', schema=SCHEMA).collect()
+        running_timers = len(df.index)
+        if running_timers == 0:
+            sql = 'UPSERT "{schema}"."XT_TIMER" VALUES (1)'.format(schema = SCHEMA)
+            conn.execute_sql(sql)
+            return True
+        else:
+            return False
+    except Exception as err:
+        sys.stdout.write("\nERROR - TIMER LOCK COULD NOT BE CREATED-----\n")
+        sys.stdout.write(err)
+        return False
 
-# def read_filter():
-#     with open("filter.json", 'r') as data:
-#         return data.read()
+def timer_unlock():
+    global conn
+    try:
+        sql = 'DELETE FROM "{schema}"."XT_TIMER"'.format(schema = SCHEMA)
+        conn.execute_sql(sql)
+        return True
+    except Exception as err:
+        sys.stdout.write("\nERROR - TIMER LOCK COULD NOT BE DELETED-----\n")
+        sys.stdout.write(err)
+        return False
 
 connect()

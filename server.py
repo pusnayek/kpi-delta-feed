@@ -1,12 +1,16 @@
 import os
 from flask import Flask, send_file, request, jsonify
 from cfenv import AppEnv
-from hdbcli import dbapi
 from sap.cf_logging import flask_logging
 import logging
 import main
 import excel
 from io import BytesIO
+from io import StringIO
+import time
+import sys
+import pandas as pd
+import xlsxwriter
 
 app = Flask(__name__)
 env = AppEnv()
@@ -39,16 +43,51 @@ def execute():
 @app.route('/excel/download', methods = ['GET','POST'])
 def download():
     payload = request.json
-    # wb = excel.build(jsonify(payload))
-    wb = excel.build(payload)
-    file_stream = BytesIO()
-    wb.save(file_stream)
-    file_stream.seek(0)
+    df = excel.build_df(payload)
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, startrow = 0, merge_cells = False, index=False, sheet_name = "data")
+    writer.close()
+    output.seek(0)
     return send_file(
-        file_stream, 
+        output, 
         mimetype = "application/vnd.ms-excel",
         download_name="Kpi.xlsx", 
         as_attachment=True)
+
+# def download():
+#     payload = request.json
+#     # wb = excel.build(jsonify(payload))
+#     wb = excel.build(payload)
+#     file_stream = BytesIO()
+#     wb.save(file_stream)
+#     file_stream.seek(0)
+#     return send_file(
+#         file_stream, 
+#         mimetype = "application/vnd.ms-excel",
+#         download_name="Kpi.xlsx", 
+#         as_attachment=True)
+
+
+@app.route('/timer-start', methods = ['GET'])
+def start():
+    lock = main.timer_lock()
+    if lock == False:
+        return "Timer already started!"
+    
+    while lock:
+        time.sleep(600)
+        sys.stdout.write('\nINFO - TIMER RUNNING---\n')
+        main.execute()
+    return "Timer started"
+
+@app.route('/timer-unlock', methods = ['GET'])
+def unlock():
+    lock = main.timer_unlock()
+    if lock == True:
+        return "Timer unlocked!"
+    else:
+        return "Failed to unlock timer!"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)

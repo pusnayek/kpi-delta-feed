@@ -23,3 +23,11 @@ def check_sftp():
 
 def check_hana():
     return dbconnect.check_hana_connection()
+
+def timer_lock():
+    return dbconnect.timer_lock()
+
+def timer_unlock():
+    return dbconnect.timer_unlock()
+
+execute()
