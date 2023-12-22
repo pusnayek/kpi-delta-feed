@@ -20,13 +20,13 @@ flask_logging.init(app, logging.INFO)
 port = int(os.environ.get('PORT', 3000))
 @app.route('/')
 def hello():
-    return "RUN :/execute - to run replication"
+    return "RUN : Flask started.."
 
-@app.route('/log')
-def root_route():
-    logger = logging.getLogger('btp-py')
-    logger.info('Hi')
-    return 'OK'
+# @app.route('/log')
+# def root_route():
+#     logger = logging.getLogger('btp-py')
+#     logger.info('Hi')
+#     return 'OK'
 
 @app.route('/sftp')
 def read_sftp():
@@ -36,10 +36,10 @@ def read_sftp():
 def dbconnect():
     return main.check_hana()
 
-@app.route('/execute')
-def execute():
-    main.execute()
-    return "Replication done!"
+# @app.route('/execute')
+# def execute():
+#     main.execute()
+#     return "Replication done!"
 
 @app.route('/excel/download', methods = ['GET','POST'])
 def download():
@@ -56,36 +56,30 @@ def download():
         download_name="Kpi.xlsx", 
         as_attachment=True)
 
-@app.route('/timer-start', methods = ['GET'])
-def start():
-    lock = main.timer_lock()
-    if lock == False:
-        return "Timer already started!"
-    
-    while lock:
+
+# timer for replication
+def timer_task_replicaton(name):
+    while True:
         time.sleep(600)
-        sys.stdout.write('\nINFO - TIMER RUNNING---\n')
+        sys.stdout.write('\nINFO - TIMER TASK (REPLICATION) RUNNING---{name}\n'.format(name=name))
         main.execute()
-    return "Timer started"
 
-@app.route('/timer-unlock', methods = ['GET'])
-def unlock():
-    lock = main.timer_unlock()
-    if lock == True:
-        return "Timer unlocked!"
-    else:
-        return "Failed to unlock timer!"
+# timer for tiles update
+def timer_task_tiles(name):
+    while True:
+        time.sleep(900)
+        sys.stdout.write('\nINFO - TIMER TASK (TILES) RUNNING---{name}\n'.format(name=name))
 
-# def timer_function(name):
-#     while True:
-#         sys.stdout.write('\nINFO - TIMER RUNNING---{name}\n'.format(name = name))
-#         time.sleep(300)
-#         main.execute()
+
+# start the timers
+timerReplication = threading.Thread(target=timer_task_replicaton, args=(time.time(),))
+timerReplication.start()
+
+# timerTiles = threading.Thread(target=timer_task_tiles, args=(time.time(),))
+# timerTiles.start()
+
+sys.stdout.write('\nINFO - TIMER STARTED---\n')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
-
-    #start the timer
-    # timer = threading.Thread(target=timer_function, args=(1,))
-    # timer.start()
-    # sys.stdout.write('\nINFO - TIMER STARTED---\n')
