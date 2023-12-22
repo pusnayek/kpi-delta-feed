@@ -11,6 +11,7 @@ import time
 import sys
 import pandas as pd
 import xlsxwriter
+import threading
 
 app = Flask(__name__)
 env = AppEnv()
@@ -43,7 +44,7 @@ def execute():
 @app.route('/excel/download', methods = ['GET','POST'])
 def download():
     payload = request.json
-    df = excel.build_df(payload)
+    df, filename = excel.build_df(payload)
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
     df.to_excel(writer, startrow = 0, merge_cells = False, index=False, sheet_name = "data")
@@ -54,20 +55,6 @@ def download():
         mimetype = "application/vnd.ms-excel",
         download_name="Kpi.xlsx", 
         as_attachment=True)
-
-# def download():
-#     payload = request.json
-#     # wb = excel.build(jsonify(payload))
-#     wb = excel.build(payload)
-#     file_stream = BytesIO()
-#     wb.save(file_stream)
-#     file_stream.seek(0)
-#     return send_file(
-#         file_stream, 
-#         mimetype = "application/vnd.ms-excel",
-#         download_name="Kpi.xlsx", 
-#         as_attachment=True)
-
 
 @app.route('/timer-start', methods = ['GET'])
 def start():
@@ -89,5 +76,16 @@ def unlock():
     else:
         return "Failed to unlock timer!"
 
+# def timer_function(name):
+#     while True:
+#         sys.stdout.write('\nINFO - TIMER RUNNING---{name}\n'.format(name = name))
+#         time.sleep(300)
+#         main.execute()
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
+
+    #start the timer
+    # timer = threading.Thread(target=timer_function, args=(1,))
+    # timer.start()
+    # sys.stdout.write('\nINFO - TIMER STARTED---\n')

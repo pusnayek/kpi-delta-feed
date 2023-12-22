@@ -24,9 +24,12 @@ def build(payload):
 
     return wb
 
+
 def build_df(payload):
     scenario, language = payload["scenario"], payload["langu"]
     select, viewname, groupby = KpiWriter.getScenario(scenario)
     df = dbconnect.read_data(payload, select, viewname, groupby)
-    df = KpiWriter.prepare(df, scenario, language)
-    return df
+    df, filename = KpiWriter.prepare(df, scenario, language)
+    return df, filename
+
+# print(KpiWriter.getFileName('CompetencyStatus', 'iw'))

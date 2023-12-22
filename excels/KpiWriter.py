@@ -31,6 +31,11 @@ def getReplacedColumn(colname, scenario):
 def prepare(df, scenario, language):
     Texts.init(language)
 
+    # get the file name
+    fname_key = "FNAME{scenario}".format(scenario = scenario.upper())
+    filename = '{fname}.xlsx'.format(fname = Texts.get(fname_key))
+    # filename = Texts.get(fname_key)+'.xlsx'
+
     # format date columns
     if(CONFIG[scenario]["DATE_FROMAT"]):
         for column in CONFIG[scenario]["DATE_FROMAT"]:
@@ -48,9 +53,24 @@ def prepare(df, scenario, language):
         for column in CONFIG[scenario]["BOOL_FORMAT"]:
             df[column] = df[column].replace(['X', ''], [Texts.get('BOOL/TRUE'), Texts.get('BOOL/FALSE')])
 
+    # format competency type
+    if(CONFIG[scenario]["COMPETENCYTYPE"]):
+        for column in CONFIG[scenario]["COMPETENCYTYPE"]:
+            df[column] = df[column].replace(['Prof Competency', 'Regulation'], [Texts.get('PROFCOMPETENCYTYPE'), Texts.get('REGULCOMPETENCYTYPE')])
+
     df.columns = list(map(lambda colname: Texts.get(colname), list(df.columns)))
     # df.columns = list(map(lambda colname: Texts.get(getReplacedColumn(colname, scenario)), list(df.columns)))
     # print(df.columns)
-    return df
+    return df, filename
+
+def getFileName(scenario, langu):
+    Texts.init(langu)
+    # get the file name
+    fname_key = "FNAME{scenario}".format(scenario = scenario.upper())
+    # filename = '{fname}.xlsx'.format(fname = Texts.get(fname_key))
+    filename = Texts.get(fname_key)+'.xlsx'
+    return filename
+
 
 read_config()
+

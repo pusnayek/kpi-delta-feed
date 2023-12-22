@@ -33,7 +33,7 @@ def read_files():
             if(matches):
                 # print(file, type)
                 with sftp_client.file(file, 'r') as data:
-                    df = pd.read_csv(data)
+                    df = pd.read_csv(data, dtype={'User ID': str})
                     yield type, file, df
     except Exception as err:
         print(err)

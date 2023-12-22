@@ -12,7 +12,8 @@
         "GROUPBY" : [],
         "DATE_FROMAT" : ["LASTACCUMULATIONDATE", "EXPIRATIONDATE", "LATESTITEMASSIGNMENTDATE"],
         "STAT_FORMAT" : ["QUALIFIED"],
-        "BOOL_FORMAT" : ["HASCURRENTASSIGNMENT","HASEXPIRY"]
+        "BOOL_FORMAT" : ["HASCURRENTASSIGNMENT","HASEXPIRY"],
+        "COMPETENCYTYPE" : ["COMPETENCY_COMPETENCYTYPE"]
     },
     "CompetencyGaps" : {
         "SELECT" : [
@@ -29,7 +30,8 @@
         "GROUPBY" : [],
         "DATE_FROMAT" : ["ASSIGNMENTDATE"],
         "STAT_FORMAT" : ["QUALIFIED"],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : ["COMPETENCY_COMPETENCYTYPE"]
     },
     "ByCompetencies" : {
         "SELECT" : [
@@ -42,7 +44,8 @@
         "GROUPBY" : ["COMPETENCY_ID", "COMPETENCY_NAME", "COMPETENCY_TYPE", "COMPETENCY_DESCRIPTION"],
         "DATE_FROMAT" : [],
         "STAT_FORMAT" : [],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : ["COMPETENCY_COMPETENCYTYPE"]
     },
     "ByEmployees" : {
         "SELECT" : [
@@ -59,7 +62,8 @@
             "EMPLOYEEGROUP", "EMPCUSTOMSTATUS", "MANAGERUSERID", "MANAGERNAME"],
         "DATE_FROMAT" : [],
         "STAT_FORMAT" : [],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : []
     },
     "ByManagers" : {
         "SELECT" : [
@@ -76,7 +80,8 @@
             "EMPLOYEEGROUP", "EMPCUSTOMSTATUS", "MANAGERUSERID", "MANAGERNAME"],
         "DATE_FROMAT" : [],
         "STAT_FORMAT" : [],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : []
     },
     "ByCompanies" : {
         "SELECT" : [
@@ -88,7 +93,8 @@
         "GROUPBY" : ["DOMAIN"],
         "DATE_FROMAT" : [],
         "STAT_FORMAT" : [],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : []
     },
     "ByDivisions" : {
         "SELECT" : [
@@ -100,7 +106,8 @@
         "GROUPBY" : ["DIVISION"],
         "DATE_FROMAT" : [],
         "STAT_FORMAT" : [],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : []
     },
     "ByDepartments" : {
         "SELECT" : [
@@ -112,6 +119,7 @@
         "GROUPBY" : ["DEPARTMENT"],
         "DATE_FROMAT" : [],
         "STAT_FORMAT" : [],
-        "BOOL_FORMAT" : []
+        "BOOL_FORMAT" : [],
+        "COMPETENCYTYPE" : []
     }
 }
