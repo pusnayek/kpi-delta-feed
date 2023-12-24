@@ -2,6 +2,8 @@ import paramiko
 import pandas as pd
 import exconfig
 import sys
+import time
+import calendar
 
 connection_host = 'prodftp2.successfactors.eu'
 connection_user = 'centralbot-stage'
@@ -48,7 +50,7 @@ def archive(filename):
     # old_name = connection_dir + "/" + filename
     # new_name = connection_dir + "/Archive" + "/" + filename
     old_name = filename
-    new_name = "/Archive" + "/" + filename
+    new_name = connection_dir + "/Archive/" + "/" + filename.split(".")[0] + "_" + str(calendar.timegm(time.gmtime())) + ".csv"
     sys.stdout.write("Archiving file {file}".format(file = old_name))
     sftp_client.rename(old_name, new_name)
     sys.stdout.write("Archived file {file}".format(file = new_name))
@@ -62,7 +64,7 @@ def move_file(filename):
         # archive(filename)
         # sftp_client.chdir(connection_dir)
         old_name = connection_dir + "/" + filename
-        new_name = connection_dir + "/Archive/" + "/" + filename
+        new_name = connection_dir + "/Archive/" + "/" + filename.split(".")[0] + "_" + str(calendar.timegm(time.gmtime())) + ".csv"
         sftp_client.rename(old_name, new_name)
         # command = "mv " + connection_dir + "/" + filename + " " + connection_dir + "/Archive"
         # print(command)
