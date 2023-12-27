@@ -1,6 +1,7 @@
 import sftp
 import dbconnect
 import sys
+import tiles
 
 def execute():
     files = []
@@ -17,6 +18,9 @@ def execute():
     for filename in files:        
         sftp.move_file(filename)
         sys.stdout.write("\nINFO - File archived {filename}\n".format(filename = filename))
+
+    if len(files) > 0:
+        tiles.update_tile_values()
 
 def check_sftp():
     return sftp.check()

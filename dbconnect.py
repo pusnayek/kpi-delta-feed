@@ -83,31 +83,41 @@ def build_where_clause(filter):
             pFilter = pFilter + ' AND ("{name}" IN ({values}))'.format(name = filterItem["name"], values = values)
     return pFilter
 
-def timer_lock():
-    global conn
-    try:
-        df = conn.table('XT_TIMER', schema=SCHEMA).collect()
-        running_timers = len(df.index)
-        if running_timers == 0:
-            sql = 'UPSERT "{schema}"."XT_TIMER" VALUES (1)'.format(schema = SCHEMA)
-            conn.execute_sql(sql)
-            return True
-        else:
-            return False
-    except Exception as err:
-        sys.stdout.write("\nERROR - TIMER LOCK COULD NOT BE CREATED-----\n")
-        sys.stdout.write(err)
-        return False
+# def timer_lock():
+#     global conn
+#     try:
+#         df = conn.table('XT_TIMER', schema=SCHEMA).collect()
+#         running_timers = len(df.index)
+#         if running_timers == 0:
+#             sql = 'UPSERT "{schema}"."XT_TIMER" VALUES (1)'.format(schema = SCHEMA)
+#             conn.execute_sql(sql)
+#             return True
+#         else:
+#             return False
+#     except Exception as err:
+#         sys.stdout.write("\nERROR - TIMER LOCK COULD NOT BE CREATED-----\n")
+#         sys.stdout.write(err)
+#         return False
 
-def timer_unlock():
+# def timer_unlock():
+#     global conn
+#     try:
+#         sql = 'DELETE FROM "{schema}"."XT_TIMER"'.format(schema = SCHEMA)
+#         conn.execute_sql(sql)
+#         return True
+#     except Exception as err:
+#         sys.stdout.write("\nERROR - TIMER LOCK COULD NOT BE DELETED-----\n")
+#         sys.stdout.write(err)
+#         return False
+
+def read_clock_values():
     global conn
-    try:
-        sql = 'DELETE FROM "{schema}"."XT_TIMER"'.format(schema = SCHEMA)
-        conn.execute_sql(sql)
-        return True
-    except Exception as err:
-        sys.stdout.write("\nERROR - TIMER LOCK COULD NOT BE DELETED-----\n")
-        sys.stdout.write(err)
-        return False
+    df = conn.sql('SELECT ACTING_USERID, CC_ETHNICITY FROM "{schema}"."CLOCKVALUES"'.format(schema=SCHEMA)).collect()
+    return df
+
+
+def drop_clock_deltas():
+    global conn
+    conn.execute_sql('DELETE FROM "{schema}"."ST_TILEDELTAS"'.format(schema=SCHEMA))
 
 connect()

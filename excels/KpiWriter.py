@@ -2,6 +2,7 @@ import pandas as pd
 import json
 from texts import Texts
 from openpyxl import load_workbook
+import urllib.parse
 
 CONFIG = {}
 
@@ -33,7 +34,7 @@ def prepare(df, scenario, language):
 
     # get the file name
     fname_key = "FNAME{scenario}".format(scenario = scenario.upper())
-    filename = '{fname}.xlsx'.format(fname = Texts.get(fname_key))
+    filename = '{fname}.xlsx'.format(fname = Texts.get(fname_key))    
     # filename = Texts.get(fname_key)+'.xlsx'
 
     # format date columns
@@ -61,7 +62,7 @@ def prepare(df, scenario, language):
     df.columns = list(map(lambda colname: Texts.get(colname), list(df.columns)))
     # df.columns = list(map(lambda colname: Texts.get(getReplacedColumn(colname, scenario)), list(df.columns)))
     # print(df.columns)
-    return df, filename
+    return df, urllib.parse.quote(filename)
 
 def getFileName(scenario, langu):
     Texts.init(langu)

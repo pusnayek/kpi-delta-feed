@@ -53,16 +53,19 @@ def download():
     return send_file(
         output, 
         mimetype = "application/vnd.ms-excel",
-        download_name="Kpi.xlsx", 
+        download_name=filename, 
         as_attachment=True)
 
 
 # timer for replication
 def timer_task_replicaton(name):
     while True:
-        time.sleep(600)
-        sys.stdout.write('\nINFO - TIMER TASK (REPLICATION) RUNNING---{name}\n'.format(name=name))
-        main.execute()
+        try:
+            time.sleep(600)
+            sys.stdout.write('\nINFO - TIMER TASK (REPLICATION) RUNNING---{name}\n'.format(name=name))
+            main.execute()
+        except Exception as err:
+            sys.stdout.write('\nERROR - TIMER TASK (REPLICATION) ---{err}\n'.format(err=err))
 
 # timer for tiles update
 def timer_task_tiles(name):
