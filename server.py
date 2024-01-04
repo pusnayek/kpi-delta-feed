@@ -44,10 +44,17 @@ def dbconnect():
 @app.route('/excel/download', methods = ['GET','POST'])
 def download():
     payload = request.json
-    df, filename = excel.build_df(payload)
+    df, filename, language = excel.build_df(payload)
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
     df.to_excel(writer, startrow = 0, merge_cells = False, index=False, sheet_name = "data")
+    #formatting
+    workbook  = writer.book
+    worksheet = writer.sheets['data']    
+    worksheet.autofit()
+    if(language.lower() == 'iw'):
+        worksheet.right_to_left()
+    #close the writer
     writer.close()
     output.seek(0)
     return send_file(

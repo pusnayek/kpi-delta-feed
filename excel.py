@@ -30,6 +30,6 @@ def build_df(payload):
     select, viewname, groupby = KpiWriter.getScenario(scenario)
     df = dbconnect.read_data(payload, select, viewname, groupby)
     df, filename = KpiWriter.prepare(df, scenario, language)
-    return df, filename
+    return df, filename, language
 
 # print(KpiWriter.getFileName('CompetencyStatus', 'iw'))

@@ -29,7 +29,7 @@
         "NUMBERCOLS" : ["RETAININGNUMER"]
     },
     "EMPLOYEE" : {
-        "FILENAME-PATTERNS" : ["Employees"],  
+        "FILENAME-PATTERNS" : ["Employees", "Recent_Employees"],  
         "HANATAB" : "TT_EMPLOYEES",
         "COLUMNS" : {
             "User ID" : "USERID", 
