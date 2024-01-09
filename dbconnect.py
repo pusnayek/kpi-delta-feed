@@ -63,7 +63,7 @@ def replicate(type):
     proc = 'CALL "{schema}"."PROC_TRANS_DATA_FROM_TEMP"(\'{type}\')'.format(schema = SCHEMA, type = type.upper())
     conn.execute_sql(proc)
 
-def read_data(filter, select, viewname, groupby):
+def read_data(filter, select, viewname, groupby, orderby):
     global conn
     whereClause = build_where_clause(filter)    
     sql = 'SELECT {select} FROM "{schema}"."{view}" WHERE {where}'.format(
@@ -72,6 +72,7 @@ def read_data(filter, select, viewname, groupby):
         view = viewname, 
         where = whereClause)
     sql = '{sql} GROUP BY {groupby}'.format(sql = sql, groupby = groupby) if len(groupby) > 0 else sql
+    sql = '{sql} ORDER BY {orderby}'.format(sql = sql, orderby = orderby) if len(orderby) > 0 else sql
     df = conn.sql(sql).collect()
     return df
 

@@ -20,7 +20,8 @@ def getScenario(scenario):
     # print(CONFIG[scenario])
     select = ','.join(CONFIG[scenario]["SELECT"])
     groupby = ','.join(CONFIG[scenario]["GROUPBY"])
-    return select, CONFIG[scenario]["VIEWNAME"], groupby
+    orderby = ','.join(CONFIG[scenario]["ORDERBY"])
+    return select, CONFIG[scenario]["VIEWNAME"], groupby, orderby
 
 def getReplacedColumn(colname, scenario):
     cols = list(filter(lambda item: item["col"] == colname, CONFIG[scenario]["REPLACE_TRANSLATION"]))

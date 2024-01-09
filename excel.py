@@ -27,8 +27,8 @@ def build(payload):
 
 def build_df(payload):
     scenario, language = payload["scenario"], payload["langu"]
-    select, viewname, groupby = KpiWriter.getScenario(scenario)
-    df = dbconnect.read_data(payload, select, viewname, groupby)
+    select, viewname, groupby, orderby = KpiWriter.getScenario(scenario)
+    df = dbconnect.read_data(payload, select, viewname, groupby, orderby)
     df, filename = KpiWriter.prepare(df, scenario, language)
     return df, filename, language
 
