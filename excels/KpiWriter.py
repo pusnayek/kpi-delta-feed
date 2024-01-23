@@ -43,7 +43,8 @@ def prepare(df, scenario, language):
         for column in CONFIG[scenario]["DATE_FROMAT"]:
             # df[column] = df[column].dt.strftime('%d-%b-%Y') 
             # if pd.notnull(df[column]) else ''
-            df[column] = df[column].map(lambda val: val.strftime('%d-%b-%Y') if pd.notnull(val) else '')
+            # df[column] = df[column].map(lambda val: val.strftime('%d-%b-%Y') if pd.notnull(val) else '')
+            df[column] = pd.to_datetime(df[column]).dt.date
 
     # format status columns
     if(CONFIG[scenario]["STAT_FORMAT"]):
