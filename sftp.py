@@ -6,8 +6,12 @@ import time
 import calendar
 
 connection_host = 'prodftp2.successfactors.eu'
-connection_user = 'centralbot-stage'
-connection_password = '8DfQMHKUwf'
+# Production user
+connection_user = 'centralbot'
+connection_password = '29oBDFiAzD'
+# Stage User
+# connection_user = 'centralbot-stage'
+# connection_password = '8DfQMHKUwf'
 connection_dir='/incoming/LMS'
 
 CONFIG = exconfig.read_config()
@@ -99,3 +103,8 @@ def check():
             sftp_client.close()
         if ssh:
             ssh.close()
+
+# Run check
+# for type, filename, dataframe in read_files():
+#     str = "\nINFO - File type - {type}, name - {name}, length - {len}\n".format(type = type, name = filename, len = len(dataframe.index))
+#     print(str)
